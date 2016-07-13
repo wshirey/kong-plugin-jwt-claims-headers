@@ -21,9 +21,9 @@ convention of `x-<claim-name>`. For example, if the JWT payload object is
 then the following headers would be added
 
 ```
-x-sub:  "1234567890"
-x-name: "John Doe"
-x-admin: true
+x-sub   : "1234567890"
+x-name  : "John Doe"
+x-admin : true
 ```
 
 ## Configuration
@@ -32,10 +32,10 @@ Similar to the built-in JWT Kong plugin, you can associate the jwt-claims-header
 plugin with an api with the following request
 
 ```bash
-curl -X POST http://kong:80001/apis/{api}/plugins \
-  --data "name=jwt-claims-headers"
-  --data "config.uri_param_names=jwt"
-  --data "config.claims_to_include=.*"
+curl -X POST http://localhost:8001/apis/29414666-6b91-430a-9ff0-50d691b03a45/plugins \
+  --data "name=jwt-claims-headers" \
+  --data "config.uri_param_names=jwt" \
+  --data "config.claims_to_include=.*" \
   --data "config.continue_on_error=true"
 ```
 
