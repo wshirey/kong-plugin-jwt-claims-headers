@@ -12,9 +12,9 @@ convention of `x-<claim-name>`. For example, if the JWT payload object is
 
 ```json
 {
-  "sub": "1234567890",
-  "name": "John Doe",
-  "admin": true
+  "sub"   : "1234567890",
+  "name"  : "John Doe",
+  "admin" : true
 }
 ```
 
