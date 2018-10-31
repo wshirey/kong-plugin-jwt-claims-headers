@@ -48,6 +48,8 @@ function JwtClaimsHeadersHandler:access(conf)
 
   if not token and not continue_on_error then
     return responses.send_HTTP_UNAUTHORIZED()
+  elseif not token and continue_on_error then
+    return
   end
 
   local jwt, err = jwt_decoder:new(token)
