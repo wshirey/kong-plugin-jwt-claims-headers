@@ -58,9 +58,13 @@ function JwtClaimsHeadersHandler:access(conf)
 
   local claims = jwt.claims
   for claim_key,claim_value in pairs(claims) do
-    for _,claim_pattern in pairs(conf.claims_to_include) do      
+    for _,claim_pattern in pairs(conf.claims_to_include) do
       if string.match(claim_key, "^"..claim_pattern.."$") then
-        req_set_header("X-"..claim_key, claim_value)
+        local key = claim_key
+        if conf.strip_claim_namespace then
+          key = string.gsub(key, conf.strip_claim_namespace, "")
+        end
+        req_set_header("X-"..key, claim_value)
       end
     end
   end
