@@ -4,6 +4,7 @@ local req_set_header = ngx.req.set_header
 local ngx_re_gmatch = ngx.re.gmatch
 
 local JwtClaimsHeadersHandler = BasePlugin:extend()
+JwtClaimsHeadersHandler.PRIORITY = 901
 
 local function retrieve_token(request, conf)
   local uri_parameters = request.get_uri_args()
