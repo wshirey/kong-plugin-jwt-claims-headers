@@ -2,6 +2,11 @@ local BasePlugin = require "kong.plugins.base_plugin"
 local jwt_decoder = require "kong.plugins.jwt.jwt_parser"
 local req_set_header = ngx.req.set_header
 local ngx_re_gmatch = ngx.re.gmatch
+local match = string.match
+
+local source_tenant_id_jwt_key = "https://cycode.com/tenantId"
+local target_tenant_id_header = "tenant-id"
+local target_hasura_tenant_id_header = "hasura-tenant-id"
 
 local JwtClaimsHeadersHandler = BasePlugin:extend()
 
@@ -57,10 +62,15 @@ function JwtClaimsHeadersHandler:access(conf)
   end
 
   local claims = jwt.claims
-  for claim_key,claim_value in pairs(claims) do
-    for _,claim_pattern in pairs(conf.claims_to_include) do      
-      if string.match(claim_key, "^"..claim_pattern.."$") then
-        req_set_header("X-"..claim_key, claim_value)
+  for claim_key, claim_value in pairs(claims) do
+    if match(claim_key, source_tenant_id_jwt_key) then
+      req_set_header("X-"..target_tenant_id_header, claim_value)
+      req_set_header("X-"..target_hasura_tenant_id_header, claim_value)
+    else
+      for _,claim_pattern in pairs(conf.claims_to_include) do      
+        if match(claim_key, "^"..claim_pattern.."$") then
+          req_set_header("X-"..claim_key, claim_value)
+        end
       end
     end
   end
