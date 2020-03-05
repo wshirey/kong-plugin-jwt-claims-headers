@@ -52,8 +52,8 @@ function JwtClaimsHeadersHandler:access(conf)
     return
   end
 
-  local jwt, err = jwt_decoder:new(token)
-  if err and not continue_on_error then
+  local jwt, jwtDecodeErr = jwt_decoder:new(token)
+  if jwtDecodeErr and not continue_on_error then
     return kong.response.exit(500)
   end
 
