@@ -21,9 +21,9 @@ convention of `x-<claim-name>`. For example, if the JWT payload object is
 then the following headers would be added
 
 ```
-x-sub   : "1234567890"
-x-name  : "John Doe"
-x-admin : true
+X-Sub   : "1234567890"
+X-Name  : "John Doe"
+X-Admin : true
 ```
 
 ## Configuration
