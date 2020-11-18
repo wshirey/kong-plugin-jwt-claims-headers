@@ -8,7 +8,7 @@ the upstream service.
 
 When enabled, this plugin will add new headers to requests based on the claims 
 in the JWT provided in the request. The generated headers follow the naming 
-convention of `x-<claim-name>`. For example, if the JWT payload object is
+convention of `X-<claim-name>`. For example, if the JWT payload object is
 
 ```json
 {
