@@ -59,8 +59,13 @@ function JwtClaimsHeadersHandler:access(conf)
       for _, claim_pattern in pairs(conf.claims_to_include) do
         if string.match(claim_key, "^"..claim_pattern.."$") then
           pcall(function ()
-            -- if claim listed multiple times returned as table and can't be set to header 
-            kong.service.request.set_header("X-"..claim_key, claim_value)
+            if type(claim_value) == "table" then
+              for _, claim_value_i in pairs(claim_value) do
+                kong.service.request.add_header("X-"..claim_key, claim_value_i)
+              end
+            else
+              kong.service.request.set_header("X-"..claim_key, claim_value)
+            end
           end)
         end
       end
