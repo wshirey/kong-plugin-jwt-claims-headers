@@ -2,7 +2,7 @@
 
 Deploy to kong nodes:
 ```
-kubectl create configmap kong-plugin-mp-test --from-file=jwt-claims-headers -n kong-nlb -oyaml --dry-run=client | kubectl apply -f-
+kubectl create configmap kong-plugin-jwt-claims-headers --from-file=jwt-claims-headers -n kong-nlb -oyaml --dry-run=client | kubectl apply -f-
 ```
 :'( - automate this??
 
