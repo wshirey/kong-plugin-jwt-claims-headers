@@ -11,12 +11,14 @@ local JwtClaimsHeadersHandler = {
 local function retrieve_token(request, conf)
   local uri_parameters = request.get_query()
 
+  -- URI param search
   for _, v in pairs(conf.uri_param_names) do
     if uri_parameters[v] then
       return uri_parameters[v]
     end
   end
 
+  -- Header search
   local request_headers = request.get_headers()
   for _, v in pairs(conf.header_names) do
     local token_header = request_headers[v]
@@ -30,6 +32,15 @@ local function retrieve_token(request, conf)
       end
     end
   end
+
+  -- Cookie search
+  for _, v in ipairs(conf.cookie_names) do
+    local cookie = ngx.var["cookie_" .. v]
+    if cookie and cookie ~= "" then
+      return cookie
+    end
+  end
+
 end
 
 function JwtClaimsHeadersHandler:access(conf)

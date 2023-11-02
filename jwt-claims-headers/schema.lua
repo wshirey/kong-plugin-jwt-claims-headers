@@ -19,6 +19,11 @@ return {
                 elements = { type = "string" },
                 default = { "authorization" },
             }, },
+            { cookie_names = {
+              type = "set",
+              elements = { type = "string" },
+              default = {"jwt"},
+            }, },
             { claims_to_include = {
                 type = "set",
                 elements = { type = "string" },
