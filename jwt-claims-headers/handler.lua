@@ -72,7 +72,7 @@ function JwtClaimsHeadersHandler:access(conf)
       for _, claim_pattern in pairs(conf.claims_to_include) do
         if string.match(claim_key, "^"..claim_pattern.."$") then
           -- this only protects the add_header, if a used header isn't included in the claim then it could be passed by the user
-          kong.service.request.clear_heder(HEADER_PREFIX..claim_key)
+          kong.service.request.clear_header(HEADER_PREFIX..claim_key)
           pcall(function ()
             if type(claim_value) == "table" then
               for _, claim_value_i in pairs(claim_value) do
