@@ -8,6 +8,8 @@ local JwtClaimsHeadersHandler = {
     VERSION = "1.0"
 }
 
+local HEADER_PREFIX = "X-claim-"
+
 local function retrieve_token(request, conf)
   local uri_parameters = request.get_query()
 
@@ -69,13 +71,15 @@ function JwtClaimsHeadersHandler:access(conf)
     for claim_key, claim_value in pairs(claims) do
       for _, claim_pattern in pairs(conf.claims_to_include) do
         if string.match(claim_key, "^"..claim_pattern.."$") then
+          -- this only protects the add_header, if a used header isn't included in the claim then it could be passed by the user
+          kong.service.request.clear_heder(HEADER_PREFIX..claim_key)
           pcall(function ()
             if type(claim_value) == "table" then
               for _, claim_value_i in pairs(claim_value) do
-                kong.service.request.add_header("X-claim-"..claim_key, claim_value_i)
+                kong.service.request.add_header(HEADER_PREFIX..claim_key, claim_value_i)
               end
             else
-              kong.service.request.set_header("X-claim-"..claim_key, claim_value)
+              kong.service.request.set_header(HEADER_PREFIX..claim_key, claim_value)
             end
           end)
         end
