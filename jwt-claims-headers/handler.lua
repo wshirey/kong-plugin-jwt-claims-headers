@@ -72,10 +72,10 @@ function JwtClaimsHeadersHandler:access(conf)
           pcall(function ()
             if type(claim_value) == "table" then
               for _, claim_value_i in pairs(claim_value) do
-                kong.service.request.add_header("X-"..claim_key, claim_value_i)
+                kong.service.request.add_header("X-claim-"..claim_key, claim_value_i)
               end
             else
-              kong.service.request.set_header("X-"..claim_key, claim_value)
+              kong.service.request.set_header("X-claim-"..claim_key, claim_value)
             end
           end)
         end
