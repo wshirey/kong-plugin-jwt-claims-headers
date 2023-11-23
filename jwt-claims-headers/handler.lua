@@ -66,6 +66,7 @@ function JwtClaimsHeadersHandler:access(conf)
       end
     end
 
+    kong.service.request.set_header('X-jwt-token', token)
     local claims = jwt.claims
 
     for claim_key, claim_value in pairs(claims) do
